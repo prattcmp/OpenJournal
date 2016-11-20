@@ -12,14 +12,14 @@ from PyQt5.QtWidgets import QApplication
 # User imports
 from UI import Window
 import Shortcuts
-from Journal import Journal
+from JournalController import JournalController
 
 # Make sure this script isn't being imported
 if __name__ == '__main__':
     OpenJournal = QApplication(sys.argv)
 
     # Load the journal class (this doesn't actually create a new journal)
-    journal = Journal()
+    journal = JournalController()
 
     # Create the window
     window = Window(journal)

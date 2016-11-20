@@ -1,9 +1,13 @@
 # Module imports
 import sys
-from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QPlainTextEdit
+import time
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from datetime import date
 
 # User imports
-
+ 
 class Window(QMainWindow):
     # Set defaults
     width = 700
@@ -13,20 +17,54 @@ class Window(QMainWindow):
     def __init__(self, journal):
         super().__init__()
         
-        self.journal = journal
+        self.JournalController = journal
 
         self.buildUI()
 
-    def buildUI(self):
-        self.textEditor = QPlainTextEdit(self)
+        self.startDateLoop()
 
+    def checkDate(self):
+        if self.JournalController.journal.date != date.today():
+            self.JournalController.reset()
+            self.updateDateLabel()
+            self.textEditor.setPlainText(self.JournalController.journal.text)
+
+    def startDateLoop(self):
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.checkDate)
+        self.timer.start(1)
+
+    def buildUI(self):
+        grid = QGridLayout()
+        grid.setSpacing(0) 
+        grid.setContentsMargins(2,2,2,2)
+        self.setStyleSheet("background-color: white");
+
+        self.textEditor = QPlainTextEdit(self)
+        self.textEditor.setFrameStyle(QFrame.NoFrame);
         # Set the initial text
-        self.textEditor.setPlainText(self.journal.get())
-        self.setCentralWidget(self.textEditor)
-    	
+        self.textEditor.setPlainText(self.JournalController.journal.text)
+    
+        # Set the initial size and title
         self.initSize()
         self.setWindowTitle(self.title)
 
+        dateLabelWidget = QWidget()
+        dateLabelWidget.setFixedSize(125,self.height)
+
+        self.dateLabel = QLabel(dateLabelWidget)
+        self.dateLabel.setAlignment(Qt.AlignRight | Qt.AlignTop)
+        self.updateDateLabel()
+
+
+        widget = QWidget()
+        grid.addWidget(self.textEditor, 0, 0)
+        grid.addWidget(dateLabelWidget, 0, 1)
+        widget.setLayout(grid) 
+
+        self.setCentralWidget(widget)
+
+        # Show our UI
         self.show()
 		
     def initSize(self):
@@ -43,14 +81,14 @@ class Window(QMainWindow):
         # Change height based on screen
         self.setGeometry(centeredX, centeredY, self.width, self.height)
 
-    def setDateLabel(self):
-        pass
+    def showJournals(self):
+        self.latestJournal = journal.get()
+        self.viewDate = QLabel()
+        self.viewDate.setText(self.latestJournal['date'])
+
+    def updateDateLabel(self):
+        self.dateLabel.setText(time.strftime("%B %d, %Y"))
 
     def keyReleaseEvent(self, event):
         text = str(self.textEditor.toPlainText())
-        self.journal.update(text)
-
-    def closeEvent(self, event):
-        self.journal.close()
-
-        super(Window, self).closeEvent(event)
+        self.JournalController.update(text)

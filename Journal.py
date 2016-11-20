@@ -1,29 +1,16 @@
 # Module imports
-import shelve
-import time
+from PyQt5.QtCore import QStandardPaths
+from peewee import *
+from playhouse.sqlite_ext import SqliteExtDatabase
+from datetime import date
 
+db = SqliteExtDatabase(str(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)) + "/OpenJournal.db")
 
-# This is going to always return the current date for us
-def curDate():
-    return time.strftime("%m/%d/%Y")
+class BaseModel(Model):
+    class Meta:
+        database = db
 
-class Journal():
-    def __init__(self):
-        self.journal = shelve.open("journal", writeback=True)
+class Journal(BaseModel):
+    text = TextField()
+    date = DateField()
 
-    def close(self):
-        self.journal.close()
-
-
-    def exists(self, date):
-        if date in self.journal:
-            return True
-        
-        return False
-
-    def get(self, date = curDate()):
-        if self.exists(date):
-            return self.journal[date]
-
-    def update(self, text):
-        self.journal[curDate()] = text 
