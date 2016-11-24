@@ -7,7 +7,8 @@ Author: Christopher Pratt
 
 # Module imports
 import sys
-from PyQt5.QtWidgets import QApplication
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 
 # User imports
 from UI import Window
@@ -16,7 +17,8 @@ from JournalController import JournalController
 
 # Make sure this script isn't being imported
 if __name__ == '__main__':
-    OpenJournal = QApplication(sys.argv)
+    OpenJournal = QtWidgets.QApplication(sys.argv)
+    OpenJournal.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
 
     # Load the journal class (this doesn't actually create a new journal)
     journal = JournalController()

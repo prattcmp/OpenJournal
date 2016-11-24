@@ -25,3 +25,6 @@ class JournalController():
     def update(self, text):
         self.journal.text = text
         self.journal.save()
+
+    def get(self, date = date.today()):
+        return Journal.get(date = date)

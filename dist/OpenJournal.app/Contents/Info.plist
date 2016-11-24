@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict><key>CFBundleIdentifier</key>
+<string>OpenJournal</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundleExecutable</key>
+<string>MacOS/OpenJournal</string>
+<key>CFBundleName</key>
+<string>OpenJournal</string>
+<key>CFBundleIconFile</key>
+<string>OpenJournal_ICO.icns</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleDisplayName</key>
+<string>OpenJournal</string>
+<key>CFBundleShortVersionString</key>
+<string>0.0.0</string>
+<key>NSHighResolutionCapable</key>
+<string>True</string>
+<key>LSBackgroundOnly</key>
+<string>0</string>
+</dict>
+</plist>

@@ -1,10 +1,10 @@
 # Module imports
-from PyQt5.QtCore import QStandardPaths
+from PyQt5 import QtCore
 from peewee import *
 from playhouse.sqlite_ext import SqliteExtDatabase
 from datetime import date
 
-db = SqliteExtDatabase(str(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation)) + "/OpenJournal.db")
+db = SqliteExtDatabase(str(QtCore.QStandardPaths.writableLocation(QtCore.QStandardPaths.AppDataLocation)) + "/OpenJournal.db")
 
 class BaseModel(Model):
     class Meta:

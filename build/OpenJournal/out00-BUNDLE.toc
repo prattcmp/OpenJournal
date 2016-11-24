@@ -1,0 +1,3 @@
+([('OpenJournal',
+   '/Users/Chris/Documents/OneDrive/Code/OpenJournal/dist/OpenJournal',
+   'EXECUTABLE')],)
