@@ -26,7 +26,4 @@ if __name__ == '__main__':
     # Create the window
     window = Window(journal)
 
-    # Load shortcuts given our window
-    Shortcuts.load(window)
-
     sys.exit(OpenJournal.exec_())

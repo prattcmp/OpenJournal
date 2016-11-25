@@ -1,6 +1,8 @@
 # Module imports
 import sys
 import time
+import platform
+import dateutil.parser
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 from PyQt5 import QtGui
@@ -17,7 +19,11 @@ class Window(QtWidgets.QMainWindow):
     def __init__(self, journal):
         super().__init__()
         
+        self.firstView = True
         self.JournalController = journal
+
+        QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+W"), self, self.closeProgram)
+        QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+E"), self, self.changeView)
 
         self.buildUI()
 
@@ -35,37 +41,89 @@ class Window(QtWidgets.QMainWindow):
         self.timer.start(1)
 
     def buildUI(self):
+        # Create our pages (stacks)
+        self.editStack = QtWidgets.QWidget()
+        self.viewStack = QtWidgets.QWidget()
+        self.editStackUI()
+        self.viewStackUI()
+
+        # Put them in a stack widget so we can rotate between them
+        self.stack = QtWidgets.QStackedWidget(self)
+        self.stack.addWidget(self.editStack)
+        self.stack.addWidget(self.viewStack)
+        self.setCentralWidget(self.stack)
+
+        # Set the initial size and title
+        self.initSize()
+        self.setWindowTitle(self.title)
+
+        # Show our UI
+        self.show()
+
+    def editStackUI(self):
         grid = QtWidgets.QGridLayout()
         grid.setSpacing(0) 
         grid.setContentsMargins(2,2,2,2)
         self.setStyleSheet("background-color: white");
 
+        # Text editor widget
         self.textEditor = QtWidgets.QPlainTextEdit(self)
         self.textEditor.setFrameStyle(QtWidgets.QFrame.NoFrame);
-        # Set the initial text
         self.textEditor.setPlainText(self.JournalController.journal.text)
-    
-        # Set the initial size and title
-        self.initSize()
-        self.setWindowTitle(self.title)
 
-        dateLabelWidget = QtWidgets.QWidget()
-        dateLabelWidget.setFixedSize(125,self.height)
-
-        self.dateLabel = QtWidgets.QLabel(dateLabelWidget)
-        self.dateLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTop)
+        # Directions widget
+        self.instructLabel = QtWidgets.QLabel()
+        self.instructLabel.setText("Press " + ("Cmd" if platform.system() == "Darwin" else "Ctrl") + "+E to view journals")
+        self.instructLabel.setFixedHeight(18)
+        self.instructLabel.setStyleSheet('color: gray')
+        # Current date widget
+        self.dateLabel = QtWidgets.QLabel()
+        self.dateLabel.setFixedHeight(18)
         self.updateDateLabel()
 
 
-        widget = QtWidgets.QWidget()
-        grid.addWidget(self.textEditor, 0, 0)
-        grid.addWidget(dateLabelWidget, 0, 1)
-        widget.setLayout(grid) 
+        grid.addWidget(self.textEditor, 0, 0, 100, 1)
+        grid.addWidget(self.instructLabel, 0, 1, 1, 1)
+        grid.addWidget(self.dateLabel, 1, 1, 1, 1, QtCore.Qt.AlignRight)
 
-        self.setCentralWidget(widget)
+        self.editStack.setLayout(grid)
 
-        # Show our UI
-        self.show()
+    def viewStackUI(self):
+        grid = QtWidgets.QGridLayout()
+        grid.setSpacing(0) 
+        grid.setContentsMargins(2,2,2,2)
+        self.setStyleSheet("background-color: white");
+
+        # Text viewer widget
+        self.textViewer = QtWidgets.QPlainTextEdit(self)
+        self.textViewer.setFrameStyle(QtWidgets.QFrame.NoFrame);
+
+        self.textViewer.setReadOnly(True)
+
+        # Directions widget
+        self.instructLabel = QtWidgets.QLabel()
+        self.instructLabel.setText("Press " + ("Cmd" if platform.system() == "Darwin" else "Ctrl") + "+E to edit your journal")
+        self.instructLabel.setFixedHeight(18)
+        self.instructLabel.setStyleSheet('color: gray')
+        # Current date widget
+        self.dateLabel = QtWidgets.QLabel()
+        self.dateLabel.setFixedHeight(18)
+        self.updateDateLabel()
+
+        self.backButton = QtWidgets.QPushButton("<")
+        self.backButton.clicked.connect(self.goBack)
+        self.backButton.setFixedWidth(50)
+        self.forwardButton = QtWidgets.QPushButton(">")
+        self.forwardButton.clicked.connect(self.goForward)
+        self.forwardButton.setFixedWidth(50)
+
+        grid.addWidget(self.textViewer, 0, 0, 100, 1)
+        grid.addWidget(self.instructLabel, 0, 1, 1, 2)
+        grid.addWidget(self.dateLabel, 1, 1, 1, 2, QtCore.Qt.AlignRight)
+        grid.addWidget(self.backButton, 2, 1, 1, 1, QtCore.Qt.AlignRight)
+        grid.addWidget(self.forwardButton, 2, 2, 1, 1, QtCore.Qt.AlignRight)
+
+        self.viewStack.setLayout(grid)
 		
     def initSize(self):
         # Get user's computer resolution to properly size the window
@@ -81,16 +139,37 @@ class Window(QtWidgets.QMainWindow):
         # Change height based on screen
         self.setGeometry(centeredX, centeredY, self.width, self.height)
 
-    def showJournals(self):
-        self.viewJournal = journal.get()
-        self.viewDate = QtGui.QLabel()
-        self.viewDate.setText(self.viewJournal.date)
-        self.viewText = QtGui.QLabel()
-        self.viewText.setText(self.viewJournal.text)
-
     def updateDateLabel(self):
         self.dateLabel.setText(time.strftime("%B %d, %Y"))
 
+    def goBack(self):
+        journal = self.JournalController.back()
+
+        if journal:
+            self.textViewer.setPlainText(journal.text)
+            self.dateLabel.setText(journal.date.strftime("%B %d, %Y"))
+
+    def goForward(self):
+        journal = self.JournalController.forward()
+
+        if journal:
+            self.textViewer.setPlainText(journal.text)
+            self.dateLabel.setText(journal.date.strftime("%B %d, %Y"))
+
     def keyReleaseEvent(self, event):
-        text = str(self.textEditor.toPlainText())
-        self.JournalController.update(text)
+        if self.stack.currentIndex() == 0:
+            text = str(self.textEditor.toPlainText())
+            self.JournalController.update(text)
+
+
+    def closeProgram(self):
+        QtWidgets.QApplication.quit() 
+
+    def changeView(self):
+        if self.stack.currentIndex() == 0:
+            self.stack.setCurrentIndex(1)
+            journal = self.JournalController.back()
+            journal = self.JournalController.forward()
+            self.textViewer.setPlainText(journal.text)
+        elif self.stack.currentIndex() == 1:
+            self.stack.setCurrentIndex(0)
