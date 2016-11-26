@@ -170,6 +170,7 @@ class Window(QtWidgets.QMainWindow):
             self.stack.setCurrentIndex(1)
             journal = self.JournalController.back()
             journal = self.JournalController.forward()
-            self.textViewer.setPlainText(journal.text)
+            if journal:
+                self.textViewer.setPlainText(journal.text)
         elif self.stack.currentIndex() == 1:
             self.stack.setCurrentIndex(0)

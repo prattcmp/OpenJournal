@@ -29,7 +29,7 @@ class JournalController():
 
     def forward(self):
         if self.viewDate == date.today():
-            return False
+            return Journal.get(date = date.today())
         self.viewDate += timedelta(1)
 
         try:

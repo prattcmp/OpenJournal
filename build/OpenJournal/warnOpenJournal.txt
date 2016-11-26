@@ -1,18 +1,22 @@
-missing module named 'PyQt5.sip' - imported by /Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/PyInstaller/loader/rthooks/pyi_rth_qt5plugins.py
-missing module named 'org.python' - imported by pickle, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py, xml.sax
-missing module named ce - imported by os, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-excluded module named _frozen_importlib - imported by importlib, importlib.abc, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named _winreg - imported by platform, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named java - imported by platform, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named 'java.lang' - imported by platform, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py, xml.sax._exceptions
-missing module named vms_lib - imported by platform, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named msvcrt - imported by subprocess, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py, getpass
-missing module named _winapi - imported by subprocess, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named winreg - imported by platform, mimetypes, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py, urllib.request
-missing module named _dummy_threading - imported by dummy_threading, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named nt - imported by os, ntpath, shutil, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
-missing module named org - imported by copy, /Users/Chris/Documents/OneDrive/Code/OpenJournal/OpenJournal.py
+missing module named 'PyQt5.sip' - imported by c:\users\chris\appdata\local\programs\python\python35-32\lib\site-packages\PyInstaller\loader\rthooks\pyi_rth_qt5plugins.py
+missing module named resource - imported by posix, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named posix - imported by os, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named _posixsubprocess - imported by subprocess, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named 'org.python' - imported by pickle, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py, xml.sax
+missing module named ce - imported by os, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named readline - imported by cmd, code, pdb, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+excluded module named _frozen_importlib - imported by importlib, importlib.abc, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named _winreg - imported by platform, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named _scproxy - imported by urllib.request
+missing module named java - imported by platform, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named 'java.lang' - imported by platform, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py, xml.sax._exceptions
+missing module named vms_lib - imported by platform, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named termios - imported by tty, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py, getpass
+missing module named grp - imported by tarfile, shutil, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named _dummy_threading - imported by dummy_threading, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named org - imported by copy, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py
+missing module named pwd - imported by posixpath, tarfile, shutil, http.server, webbrowser, Y:\Documents\OneDrive\Code\OpenJournal\OpenJournal.py, netrc, getpass
 missing module named playhouse._sqlite_ext - imported by playhouse, playhouse.sqlite_ext
 missing module named vtfunc - imported by playhouse.sqlite_ext
 missing module named simplejson - imported by playhouse.sqlite_ext
@@ -22,10 +26,7 @@ missing module named MySQLdb - imported by peewee
 missing module named psycopg2 - imported by peewee
 missing module named psycopg2cffi - imported by peewee
 missing module named pysqlite2 - imported by peewee
-missing module named netbios - imported by uuid
-missing module named win32wnet - imported by uuid
 missing module named six.moves.range - imported by six.moves, dateutil.rrule
 runtime module named six.moves - imported by dateutil.tz._common, dateutil.tz.win, dateutil.rrule
-missing module named six.moves.winreg - imported by six.moves, dateutil.tz.win
 missing module named dateutil.tz.tzfile - imported by dateutil.tz, dateutil.zoneinfo
 missing module named StringIO - imported by six
