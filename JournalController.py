@@ -5,7 +5,7 @@ import time
 
 class JournalController():
     def __init__(self):
-        self.viewDate = date.today()
+        self.viewID = Journal.get(date = date.today()).id
 
         db.connect()
         
@@ -28,27 +28,21 @@ class JournalController():
         self.journal.save()
 
     def forward(self):
-        if self.viewDate == date.today():
-            return Journal.get(date = date.today())
-        self.viewDate += timedelta(1)
-
         try:
-            journals = Journal.select().where(Journal.date >= self.viewDate.isoformat()).order_by(Journal.date.asc())
+            journals = Journal.select().where(Journal.id > self.viewID).order_by(Journal.date.asc())
+            self.viewID = journals[0].id
+
             return journals[0]
         except IndexError:
-            self.viewDate -= timedelta(1)
-
             return False
 
     def back(self):
-        self.viewDate -= timedelta(1)
-
         try:
-            journals = Journal.select().where(Journal.date <= self.viewDate.isoformat()).order_by(Journal.date.desc())
+            journals = Journal.select().where(Journal.id < self.viewID).order_by(Journal.date.desc())
+            self.viewID = journals[0].id
+
             return journals[0]
         except IndexError:
-            self.viewDate += timedelta(1)
-
             return False
 
     def get(self, date = date.today()):
